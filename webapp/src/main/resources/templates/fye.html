@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<link rel="stylesheet" href="layui/css/layui.css">
+<script src="layui/layui.js"></script>
+<body>
+
+<table id="dates" lay-filter="test"></table>
+
+<script type="text/javascript" th:inline="none">
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#dates'
+            ,url:'select'
+            ,limit:5 //默认为10
+            ,cols: [[
+                {field:'id', width:50, title: '编号', sort: true} //sort：true页面可进行排序操作
+                ,{field:'name',  title: '用户名'}
+                ,{field:'age',width:170,  title: '邮箱', sort: true}
+                ,{field:'sex',width:100,  title: '等级',templet: function(d){
+                        var str = '';
+                        if(d.level==1){str='普通用户';}
+                        else if(d.level==2){str='管理员';}
+                        return str;
+                    }
+                }
+                ,{field:'level',width:100,  title: '操作',templet: function(d){
+                        return '<a class="layui-btn layui-btn-xs layui-btn-danger" onclick="dele('+d.id+');">删除</a>';
+                    }
+                }
+            ]]
+            ,page: true
+            ,done:function(res, curr, count){
+                //数据的回调用，可不写
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
